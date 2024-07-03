@@ -1,13 +1,11 @@
-# RSG Django Template - Django Project
-
-RSG Django Template.
+# Ethical Interface - Django Project
 
 This document is primarily designed for technical staff working on the development of the project (e.g. software engineers and system admins).
 
 
 ## Django Project
 
-The project is called 'django-template', but project files are stored in the 'core' folder. Please refer to `core/settings.py` for further details
+The project is called 'ethical-interface', but project files are stored in the 'core' folder. Please refer to `core/settings.py` for further details
 
 
 ## Django Apps
@@ -15,6 +13,7 @@ The project is called 'django-template', but project files are stored in the 'co
 Apps include:
 
 + general - this is for static, general sections of the website (e.g. cookies page, accessibility page, etc.) that don't require a data model
++ researchdata - contains all collected research data, including interfaces to interact with this data (e.g. web API and admin dashboard)
 
 
 ## Django Admin
