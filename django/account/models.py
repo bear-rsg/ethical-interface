@@ -1,6 +1,5 @@
 from django.contrib.auth.models import AbstractUser, UserManager
 from django.db.models.functions import Upper
-from django.db import models
 
 
 class CustomUserManager(UserManager):
