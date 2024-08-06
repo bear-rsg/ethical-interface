@@ -1,0 +1,17 @@
+{
+    "manifest_version": 3,
+    "name": "Ethical Interface",
+    "version": "1.0.0",
+    "description": "Engage with the Ethical Interface research project run by Rosie Graham at the University of Birmingham",
+    "permissions": ["tabs"],
+    "host_permissions": ["<all_urls>"],
+    "action": {
+        "default_icon": {
+            "16": "icon.png",
+            "24": "icon.png",
+            "32": "icon.png"
+        },
+        "default_title": "Ethical Interface",
+        "default_popup": "popup.html"
+    }
+}
