@@ -6,7 +6,9 @@ private/
 *.sqlite3
 django/media/
 django/static/
+django/general/migrations/
 node_modules/
+local_settings.js
 
 
 ###################### Django Templated gitignore paths  ######################
