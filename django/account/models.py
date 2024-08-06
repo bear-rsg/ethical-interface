@@ -21,8 +21,6 @@ class User(AbstractUser):
     # Custom user manager used to allow for case-insensitive usernames
     objects = CustomUserManager()
 
-    email = models.EmailField()
-
     @property
     def name(self):
         if self.first_name and self.last_name:
@@ -40,8 +38,9 @@ class User(AbstractUser):
 
     def save(self, *args, **kwargs):
         # Force email and username to be lower case and identical, so users can login with email
-        self.email = self.email.strip().lower()
-        self.username = self.email
+        if self.email:
+            self.email = self.email.strip().lower()
+            self.username = self.email
         # Ensure all accounts are 'staff' and 'superuser' so they can access admin dashboard
         self.is_staff = True
         self.is_superuser = True
