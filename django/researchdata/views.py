@@ -1,6 +1,6 @@
 from django.http import JsonResponse
-from . import models
 from django.views.decorators.csrf import csrf_exempt
+from . import models
 
 
 def prompt_get(request):
@@ -12,13 +12,14 @@ def prompt_get(request):
     if len(user_search_query):
         # Try to find a match for each word in user search query
         # E.g. if user searches "the ukraine war" then match "ukraine" and return prompt data
+        # If multiple found, return the highest priority prompt
         for word in user_search_query.split(' '):
-            prompt = models.Prompt.objects.filter(triggers__trigger_text__icontains=word).first()
+            prompt = models.Prompt.objects.filter(triggers__trigger_text__icontains=word).order_by('-priority').first()
             if prompt:
                 return JsonResponse({
                     'prompt': {
                         'id': prompt.id,
-                        'topic': prompt.topic.name,
+                        'topic': str(prompt.topic),
                         'prompt_content': prompt.prompt_content.replace('\n', '<br>'),
                         'response_required': prompt.response_required
                     }
