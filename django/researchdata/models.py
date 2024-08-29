@@ -1,15 +1,18 @@
 from django.db import models
+from django.db.models.functions import Upper
 import textwrap
 
 
-class Topic(models.Model):
+class TopicGroup(models.Model):
     """
-    A research topic/theme that prompts are organised into
+    A broad area that topics are grouped into
+    e.g. 'Politics' or 'Technology'
     """
 
     name = models.CharField(
         max_length=255,
-        help_text="A research topic/theme that prompts are organised into."
+        help_text="A broad area that topics are grouped into, e.g. 'Politics' or 'Technology'",
+        unique=True
     )
 
     admin_notes = models.TextField(blank=True, null=True)
@@ -21,7 +24,32 @@ class Topic(models.Model):
         return self.name
 
     class Meta:
-        ordering = ('-meta_created_datetime', 'id')
+        ordering = (Upper('name'), 'id')
+
+
+class Topic(models.Model):
+    """
+    A research topic/theme that prompts are organised into
+    e.g. 'US Election 2024' (which would belong to the 'Politic' topic group)
+    """
+
+    topic_group = models.ForeignKey(TopicGroup, on_delete=models.RESTRICT)
+    name = models.CharField(
+        max_length=255,
+        help_text="A research topic/theme that prompts are organised into, e.g. 'US Election 2024' (which would belong to the 'Politic' topic group).",
+        unique=True
+    )
+
+    admin_notes = models.TextField(blank=True, null=True)
+
+    meta_created_datetime = models.DateTimeField(auto_now_add=True, verbose_name="created")
+    meta_lastupdated_datetime = models.DateTimeField(auto_now=True, verbose_name="last updated")
+
+    def __str__(self):
+        return f'{self.topic_group} - {self.name}'
+
+    class Meta:
+        ordering = ('topic_group', Upper('name'), 'id')
 
 
 class Trigger(models.Model):
@@ -31,7 +59,8 @@ class Trigger(models.Model):
 
     trigger_text = models.CharField(
         max_length=255,
-        help_text="A word or phrase that will trigger a prompt to the user. Must match exactly to user's search term."
+        help_text="A word or phrase that will trigger a prompt to the user. Must match exactly to user's search term.",
+        unique=True
     )
 
     admin_notes = models.TextField(blank=True, null=True)
@@ -43,7 +72,7 @@ class Trigger(models.Model):
         return self.trigger_text
 
     class Meta:
-        ordering = ('-meta_created_datetime', 'id')
+        ordering = (Upper('trigger_text'), 'id')
 
 
 class Prompt(models.Model):
@@ -59,6 +88,11 @@ class Prompt(models.Model):
     response_required = models.BooleanField(
         default=False,
         help_text="If you'd like the user to respond to this prompt via a text box, please tick this option."
+    )
+    priority = models.IntegerField(
+        blank=True,
+        null=True,
+        help_text="Set a number that will be used to prioritise prompts if multiple are found (e.g. a priority of 100 will be shown to users before a priority of 1)"
     )
 
     triggers = models.ManyToManyField(Trigger, related_name='prompts')

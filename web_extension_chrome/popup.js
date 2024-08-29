@@ -51,10 +51,8 @@ $(document).ready(function(){
                 }
                 // If a valid prompt was NOT found then show helpful message to user
                 else {
-                    let desiredSearchQueries = '<ul><li>xxx</li><li>yyy</li><li>zzz</li></ul>';
                     container.append(`
                         <p>Your search doesn't appear to be related to our current research interests.</p>
-                        <p>Examples of topics that align with our current research interests include: ${desiredSearchQueries}</p>
                         <p>Please try adjusting your search or contact us for further support.</p>
                     `);
                 }
@@ -81,7 +79,7 @@ $(document).ready(function(){
         let responseContent = $('#response-content').val();
         if (responseContent.length > 0){
             // Post the response
-            $.post(`${apiUrlPromptPost}`, {user_response_content: responseContent, active_prompt_id: activePromptId}, function(data, status){
+            $.post(apiUrlPromptPost, {user_response_content: responseContent, active_prompt_id: activePromptId}, function(data, status){
                 if (data.response_saved == 1){
                     container.html('<div id="response-post-success">Your response has been successfully posted!</div><button id="response-post-finished-button">Finished</button>');
                 }
