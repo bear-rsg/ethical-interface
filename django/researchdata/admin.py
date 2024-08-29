@@ -51,10 +51,12 @@ class GenericAdminView(admin.ModelAdmin):
     """
 
     list_per_page = 50
-    search_fields = ('id',
-                    'name',
-                    'meta_created_datetime',
-                    'meta_lastupdated_datetime')
+    search_fields = (
+        'id',
+        'name',
+        'meta_created_datetime',
+        'meta_lastupdated_datetime'
+    )
 
     def get_actions(self, request):
         actions = super().get_actions(request)
