@@ -136,3 +136,47 @@ class Response(models.Model):
 
     class Meta:
         ordering = ['-meta_created_datetime']
+
+
+class NotRelevantReport(models.Model):
+    """
+    The report that a user submits if information is not relevant to their search
+    """
+
+    prompt = models.ForeignKey(Prompt, related_name='notrelevantreports', on_delete=models.PROTECT)
+    user_search_query = models.TextField()
+
+    admin_notes = models.TextField(blank=True, null=True)
+
+    meta_created_datetime = models.DateTimeField(auto_now_add=True, verbose_name="created")
+
+    def __str__(self):
+        return f'Response #{self.id} - {str(self.meta_created_datetime)[:19]}: {textwrap.shorten(self.response_content, width=50, placeholder="...")}'
+
+    class Meta:
+        ordering = ['-meta_created_datetime']
+
+
+class DataInsert(models.Model):
+    """
+    A model that allows data to be easily inserted into other models in this project
+    """
+
+    create_triggers = models.TextField(
+        blank=True, null=True,
+        help_text='Include a comma separated list of new Triggers to create them, e.g. "apple, banana, pear"'
+    )
+    meta_created_datetime = models.DateTimeField(auto_now_add=True, verbose_name="created")
+
+    def save(self, *args, **kwargs):
+        """
+        Create objects for each specified field.
+        """
+        # Triggers
+        if self.create_triggers:
+            for trigger in self.create_triggers.split(','):
+                t = trigger.strip()
+                if len(t):
+                    Trigger.objects.get_or_create(trigger_text=t)
+        # Save this DataInsert object
+        super().save(*args, **kwargs)

@@ -89,6 +89,26 @@ strong {
     text-align: center;
 }
 
+#notrelevanttoggle {
+    width: fit-content;
+    margin: 3em auto 1em auto;
+    color: #AAA;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+#notrelevant {
+    display: none;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 1em;
+    margin: 1em 0;
+}
+
+#notrelevant span {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
 #popup-footer {
     border-top: 0.2em solid white;
     padding-top: 0.5em;
