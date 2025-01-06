@@ -108,7 +108,7 @@ class PromptAdminView(GenericAdminView):
 @admin.register(models.Response)
 class ResponseAdminView(GenericAdminView):
     """
-    Customise the content of the list of Prompts in the Django admin
+    Customise the content of the list of Responses in the Django admin
     """
     list_display = ('id',
                     'response_content',
@@ -118,3 +118,22 @@ class ResponseAdminView(GenericAdminView):
                     'meta_lastupdated_datetime')
     list_filter = ('admin_approved',)
     actions = (approve, unapprove)
+
+
+@admin.register(models.NotRelevantReport)
+class NotRelevantReportAdminView(GenericAdminView):
+    """
+    Customise the content of the list of NotRelevantReports in the Django admin
+    """
+    list_display = ('id',
+                    'prompt',
+                    'user_search_query',
+                    'meta_created_datetime')
+
+
+@admin.register(models.DataInsert)
+class DataInsertAdminView(GenericAdminView):
+    """
+    Customise the content of the list of DataInserts in the Django admin
+    """
+    list_display = ('id', 'meta_created_datetime')
