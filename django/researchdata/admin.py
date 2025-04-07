@@ -58,12 +58,6 @@ class GenericAdminView(admin.ModelAdmin):
         'meta_lastupdated_datetime'
     )
 
-    def get_actions(self, request):
-        actions = super().get_actions(request)
-        if 'delete_selected' in actions:
-            del actions['delete_selected']
-        return actions
-
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         # Set all many to many fields to display the filter_horizontal widget

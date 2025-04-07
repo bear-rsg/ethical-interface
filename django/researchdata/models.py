@@ -72,7 +72,7 @@ class Trigger(models.Model):
         return self.trigger_text
 
     class Meta:
-        ordering = (Upper('trigger_text'), 'id')
+        ordering = ('-meta_lastupdated_datetime', Upper('trigger_text'), 'id')
 
 
 class Prompt(models.Model):

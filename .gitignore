@@ -9,6 +9,7 @@ django/static/
 django/general/migrations/
 node_modules/
 local_settings.js
+web_extension_chrome.zip
 
 
 ###################### Django Templated gitignore paths  ######################
